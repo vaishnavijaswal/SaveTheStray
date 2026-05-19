@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let selectedAnimalType = null;
   let selectedUrgency = null;
   let currentLang = localStorage.getItem('sts-lang') || 'en';
+  let isEmergencyMode = false;
 
   // ==========================
   // i18n Translations
@@ -67,7 +68,16 @@ document.addEventListener('DOMContentLoaded', () => {
       emergency_mode: 'Emergency Mode',
       emergency_mode_sub: 'High urgency · Auto-locating · Fast track',
       nearby_shelters: 'Nearby Shelters',
-      nearby_shelters_sub: 'Find NGOs & shelters near you'
+      nearby_shelters_sub: 'Find NGOs & shelters near you',
+      chip_all: 'All',
+      chip_active: 'Live Cases',
+      chip_transit: 'In Progress',
+      chip_rescued: 'Rescued',
+      shelter_search_placeholder: 'Search by name or area...',
+      emergency_contacts: '📞 Emergency Contacts',
+      track_section_active: 'Active Rescues',
+      track_section_transit: 'In Transit',
+      track_section_rescued: 'Rescued'
     },
     hi: {
       tagline: 'हर जीवन एक मौका पाने का हकदार है',
@@ -123,7 +133,16 @@ document.addEventListener('DOMContentLoaded', () => {
       emergency_mode: 'आपातकालीन मोड',
       emergency_mode_sub: 'उच्च तात्कालिकता · ऑटो-लोकेशन · फास्ट ट्रैक',
       nearby_shelters: 'नजदीकी आश्रय',
-      nearby_shelters_sub: 'अपने पास NGO और आश्रय खोजें'
+      nearby_shelters_sub: 'अपने पास NGO और आश्रय खोजें',
+      chip_all: 'सभी',
+      chip_active: 'लाइव केस',
+      chip_transit: 'प्रगति में',
+      chip_rescued: 'बचाया गया',
+      shelter_search_placeholder: 'नाम या क्षेत्र से खोजें...',
+      emergency_contacts: '📞 आपातकालीन संपर्क',
+      track_section_active: 'सक्रिय बचाव',
+      track_section_transit: 'ट्रांसिट में',
+      track_section_rescued: 'बचाए गए'
     },
     bn: {
       tagline: 'প্রতিটি জীবন একটি সুযোগ পাওয়ার যোগ্য',
@@ -172,7 +191,14 @@ document.addEventListener('DOMContentLoaded', () => {
       urgency_medium_desc: 'প্রাণী কষ্টে আছে, সামান্য আঘাত বা অসুস্থতা। শীঘ্রই মনোযোগ প্রয়োজন।',
       urgency_medium_ex: 'যেমন: খোঁড়া কুকুর, কার্নিশে আটকে থাকা বিড়াল',
       urgency_high_desc: 'প্রাণী তাৎক্ষণিক বিপদে। গুরুতর আঘাত, রক্তপাত, গাড়ি দুর্ঘটনা বা নির্যাতন।',
-      urgency_high_ex: 'যেমন: গাড়ি চাপা কুকুর, তারে আটকে পড়া প্রাণী, ডুবন্ত কুকুরছানা'
+      urgency_high_ex: 'যেমন: গাড়ি চাপা কুকুর, তারে আটকে পড়া প্রাণী, ডুবন্ত কুকুরছানা',
+      sos_title: 'জরুরি হেল্পলাইন', sos_desc: 'এখনই কল করুন', call_now: 'এখনই কল করুন',
+      emergency_mode: 'জরুরি মোড', emergency_mode_sub: 'উচ্চ তাৎক্ষণিকতা · অটো-লোকেশন · ফাস্ট ট্র্যাক',
+      nearby_shelters: 'কাছের আশ্রয়', nearby_shelters_sub: 'আপনার কাছে NGO ও আশ্রয় খুঁজুন',
+      chip_all: 'সব', chip_active: 'লাইভ কেস', chip_transit: 'প্রগতিতে', chip_rescued: 'উদ্ধার হয়েছে',
+      shelter_search_placeholder: 'নাম বা এলাকা দিয়ে খুঁজুন...',
+      emergency_contacts: '📞 জরুরি যোগাযোগ',
+      track_section_active: 'সক্রিয় উদ্ধার', track_section_transit: 'পরিবহনে', track_section_rescued: 'উদ্ধার হয়েছে'
     },
     ta: {
       tagline: 'ஒவ்வொரு உயிரும் ஒரு வாய்ப்புக்கு தகுதியானது',
@@ -221,7 +247,14 @@ document.addEventListener('DOMContentLoaded', () => {
       urgency_medium_desc: 'விலங்கு துன்பத்தில் உள்ளது, சிறிய காயம் அல்லது நோய். விரைவில் கவனிப்பு தேவை.',
       urgency_medium_ex: 'எ.கா. நொண்டும் நாய், உயரத்தில் சிக்கிய பூனை',
       urgency_high_desc: 'விலங்கு உடனடி ஆபத்தில். கடுமையான காயம், இரத்தப்போக்கு, வாகன விபத்து அல்லது துஷ்பிரயோகம்.',
-      urgency_high_ex: 'எ.கா. கார் மோதிய நாய், கம்பியில் சிக்கிய விலங்கு, மூழ்கும் நாய்க்குட்டி'
+      urgency_high_ex: 'எ.கா. கார் மோதிய நாய், கம்பியில் சிக்கிய விலங்கு, மூழ்கும் நாய்க்குட்டி',
+      sos_title: 'அவசர உதவி எண்கள்', sos_desc: 'இப்போதே அழைக்கவும்', call_now: 'இப்போதே அழைக்கவும்',
+      emergency_mode: 'அவசர பயன்முறை', emergency_mode_sub: 'அதிக அவசரம் · தானியங்கி இடம் · வேக பாதை',
+      nearby_shelters: 'அருகிலுள்ள தங்குமிடங்கள்', nearby_shelters_sub: 'உங்களுக்கு அருகிலுள்ள NGO மற்றும் தங்குமிடங்களை கண்டுபிடிக்கவும்',
+      chip_all: 'அனைத்தும்', chip_active: 'நேரடி வழக்குகள்', chip_transit: 'முன்னேறுகிறது', chip_rescued: 'மீட்கப்பட்டது',
+      shelter_search_placeholder: 'பெயர் அல்லது பகுதி மூலம் தேடுங்கள்...',
+      emergency_contacts: '📞 அவசர தொடர்புகள்',
+      track_section_active: 'செயலில் உள்ள மீட்புகள்', track_section_transit: 'போக்குவரத்தில்', track_section_rescued: 'மீட்கப்பட்டவை'
     },
     te: {
       tagline: 'ప్రతి జీవితం ఒక అవకాశానికి అర్హమైనది', get_started: 'ప్రారంభించండి →',
@@ -252,7 +285,14 @@ document.addEventListener('DOMContentLoaded', () => {
       urgency_low_ex: 'ఉదా: పార్కులో నిద్రపోతున్న కుక్క', urgency_medium_desc: 'జంతువు బాధలో ఉంది, చిన్న గాయం లేదా అనారోగ్యం. త్వరలో శ్రద్ధ అవసరం.',
       urgency_medium_ex: 'ఉదా: కుంటుతున్న కుక్క, అంచుపై చిక్కుకున్న పిల్లి',
       urgency_high_desc: 'జంతువు తక్షణ ప్రమాదంలో ఉంది. తీవ్రమైన గాయం, రక్తస్రావం, వాహన ప్రమాదం.',
-      urgency_high_ex: 'ఉదా: కారు ఢీకొన్న కుక్క, వైర్‌లో చిక్కుకున్న జంతువు'
+      urgency_high_ex: 'ఉదా: కారు ఢీకొన్న కుక్క, వైర్‌లో చిక్కుకున్న జంతువు',
+      sos_title: 'అత్యవసర హెల్ప్‌లైన్లు', sos_desc: 'వెంటనే కాల్ చేయండి', call_now: 'ఇప్పుడే కాల్ చేయండి',
+      emergency_mode: 'అత్యవసర మోడ్', emergency_mode_sub: 'అధిక అత్యవసరత · ఆటో-లొకేటింగ్ · ఫాస్ట్ ట్రాక్',
+      nearby_shelters: 'సమీప ఆశ్రయాలు', nearby_shelters_sub: 'మీ దగ్గర NGO మరియు ఆశ్రయాలు కనుగొనండి',
+      chip_all: 'అన్నీ', chip_active: 'లైవ్ కేసులు', chip_transit: 'పురోగతిలో', chip_rescued: 'రక్షించబడింది',
+      shelter_search_placeholder: 'పేరు లేదా ప్రాంతం ద్వారా వెతకండి...',
+      emergency_contacts: '📞 అత్యవసర సంప్రదింపులు',
+      track_section_active: 'సక్రియ రక్షణలు', track_section_transit: 'రవాణాలో', track_section_rescued: 'రక్షించబడినవి'
     },
     mr: {
       tagline: 'प्रत्येक जीवाला एक संधी मिळायला हवी', get_started: 'सुरू करा →',
@@ -283,7 +323,14 @@ document.addEventListener('DOMContentLoaded', () => {
       urgency_medium_desc: 'प्राणी त्रासात आहे, किरकोळ दुखापत किंवा आजार. लवकरच लक्ष आवश्यक.',
       urgency_medium_ex: 'उदा: लंगडणारा कुत्रा, कठड्यावर अडकलेली मांजर',
       urgency_high_desc: 'प्राणी तात्काळ धोक्यात आहे. गंभीर दुखापत, रक्तस्राव, वाहन अपघात किंवा अत्याचार.',
-      urgency_high_ex: 'उदा: गाडीने उडवलेला कुत्रा, तारेत अडकलेला प्राणी, बुडणारे पिल्लू'
+      urgency_high_ex: 'उदा: गाडीने उडवलेला कुत्रा, तारेत अडकलेला प्राणी, बुडणारे पिल्लू',
+      sos_title: 'आपत्कालीन हेल्पलाइन', sos_desc: 'लगेच कॉल करा', call_now: 'आत्ता कॉल करा',
+      emergency_mode: 'आपत्कालीन मोड', emergency_mode_sub: 'उच्च तातडी · ऑटो-लोकेशन · फास्ट ट्रॅक',
+      nearby_shelters: 'जवळचे आश्रय', nearby_shelters_sub: 'तुमच्या जवळ NGO आणि आश्रय शोधा',
+      chip_all: 'सर्व', chip_active: 'लाइव्ह केस', chip_transit: 'प्रगतीत', chip_rescued: 'बचावले',
+      shelter_search_placeholder: 'नाव किंवा क्षेत्रानुसार शोधा...',
+      emergency_contacts: '📞 आपत्कालीन संपर्क',
+      track_section_active: 'सक्रिय बचाव', track_section_transit: 'पारगमनात', track_section_rescued: 'बचावलेले'
     },
     kn: {
       tagline: 'ಪ್ರತಿ ಜೀವಿ ಒಂದು ಅವಕಾಶಕ್ಕೆ ಅರ್ಹ', get_started: 'ಪ್ರಾರಂಭಿಸಿ →',
@@ -314,9 +361,30 @@ document.addEventListener('DOMContentLoaded', () => {
       urgency_medium_desc: 'ಪ್ರಾಣಿ ಸಂಕಷ್ಟದಲ್ಲಿದೆ, ಸಣ್ಣ ಗಾಯ ಅಥವಾ ಅನಾರೋಗ್ಯ. ಶೀಘ್ರ ಗಮನ ಅಗತ್ಯ.',
       urgency_medium_ex: 'ಉದಾ: ಕುಂಟುವ ನಾಯಿ, ಎತ್ತರದಲ್ಲಿ ಸಿಕ್ಕಿಕೊಂಡ ಬೆಕ್ಕು',
       urgency_high_desc: 'ಪ್ರಾಣಿ ತಕ್ಷಣದ ಅಪಾಯದಲ್ಲಿದೆ. ತೀವ್ರ ಗಾಯ, ರಕ್ತಸ್ರಾವ, ವಾಹನ ಅಪಘಾತ ಅಥವಾ ಹಿಂಸೆ.',
-      urgency_high_ex: 'ಉದಾ: ಕಾರು ಹೊಡೆದ ನಾಯಿ, ತಂತಿಯಲ್ಲಿ ಸಿಕ್ಕಿಕೊಂಡ ಪ್ರಾಣಿ'
+      urgency_high_ex: 'ಉದಾ: ಕಾರು ಹೊಡೆದ ನಾಯಿ, ತಂತಿಯಲ್ಲಿ ಸಿಕ್ಕಿಕೊಂಡ ಪ್ರಾಣಿ',
+      sos_title: 'ತುರ್ತು ಸಹಾಯವಾಣಿಗಳು', sos_desc: 'ಈಗಲೇ ಕರೆ ಮಾಡಿ', call_now: 'ಈಗಲೇ ಕರೆ ಮಾಡಿ',
+      emergency_mode: 'ತುರ್ತು ಮೋಡ್', emergency_mode_sub: 'ಹೆಚ್ಚಿನ ತುರ್ತು · ಸ್ವಯಂ-ಸ್ಥಳ · ತ್ವರಿತ ಮಾರ್ಗ',
+      nearby_shelters: 'ಹತ್ತಿರದ ಆಶ್ರಯಗಳು', nearby_shelters_sub: 'ನಿಮ್ಮ ಸಮೀಪ NGO ಮತ್ತು ಆಶ್ರಯಗಳನ್ನು ಹುಡುಕಿ',
+      chip_all: 'ಎಲ್ಲ', chip_active: 'ಲೈವ್ ಕೇಸ್‌ಗಳು', chip_transit: 'ಪ್ರಗತಿಯಲ್ಲಿ', chip_rescued: 'ರಕ್ಷಿಸಲಾಗಿದೆ',
+      shelter_search_placeholder: 'ಹೆಸರು ಅಥವಾ ಪ್ರದೇಶದಿಂದ ಹುಡುಕಿ...',
+      emergency_contacts: '📞 ತುರ್ತು ಸಂಪರ್ಕಗಳು',
+      track_section_active: 'ಸಕ್ರಿಯ ರಕ್ಷಣೆಗಳು', track_section_transit: 'ಸಾರಿಗೆಯಲ್ಲಿ', track_section_rescued: 'ರಕ್ಷಿಸಲಾದವು'
     }
   };
+
+  // Merge supplemental locale strings
+  if (window.STS_I18N_EXTRA) {
+    Object.keys(window.STS_I18N_EXTRA).forEach((lang) => {
+      if (translations[lang]) {
+        Object.assign(translations[lang], window.STS_I18N_EXTRA[lang]);
+      }
+    });
+  }
+
+  function t(key) {
+    const dict = translations[currentLang] || translations.en;
+    return dict[key] ?? translations.en[key] ?? key;
+  }
 
   const langMeta = {
     en: { flag: '🇬🇧', code: 'EN' },
@@ -345,6 +413,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // Update placeholder text on inputs/textareas
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.dataset.i18nPlaceholder;
+      if (dict[key]) {
+        el.placeholder = dict[key];
+      }
+    });
+
     // Update language button display
     const meta = langMeta[lang];
     const flagEl = document.getElementById('lang-flag');
@@ -356,6 +432,21 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.lang-option').forEach(opt => {
       opt.classList.toggle('active', opt.dataset.lang === lang);
     });
+
+    // Report screen title (respect emergency mode)
+    const reportTitle = document.getElementById('report-screen-title');
+    if (reportTitle) {
+      reportTitle.textContent = isEmergencyMode ? t('report_emergency') : t('report_animal');
+    }
+
+    // Tracking section label for active filter chip
+    const trackingLabel = document.getElementById('tracking-section-label');
+    const activeChip = document.querySelector('.chip.active');
+    if (trackingLabel && activeChip) {
+      const filter = activeChip.id.replace('chip-', '');
+      const key = { all: '', active: 'track_section_active', transit: 'track_section_transit', rescued: 'track_section_rescued' }[filter];
+      trackingLabel.textContent = key ? t(key) : '';
+    }
   }
 
   // --- DOM refs ---
@@ -459,6 +550,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
       currentScreen = screenId;
+      // Re-apply language so every screen renders in the selected language
+      applyLanguage(currentLang);
     }, 150);
 
     // Bottom nav: hide on report screen (submit footer takes its place)
@@ -517,7 +610,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const emergencyBanner = document.getElementById('emergency-banner');
   const emergencyModeBanner = document.getElementById('emergency-mode-banner');
   const reportScreenTitle = document.getElementById('report-screen-title');
-  let isEmergencyMode = false;
 
   function enterEmergencyMode() {
     isEmergencyMode = true;
@@ -526,15 +618,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (emergencyModeBanner) emergencyModeBanner.style.display = 'block';
     // Change title
     if (reportScreenTitle) {
-      const dict = translations[currentLang];
-      reportScreenTitle.textContent = dict?.report_emergency || 'Report Emergency';
+      reportScreenTitle.textContent = t('report_emergency');
     }
     // Pre-select high urgency
     selectUrgency('high');
     // Auto-detect location
     const locInput = document.getElementById('location-input');
     if (locInput) {
-      locInput.value = 'Fetching location...';
+      locInput.value = t('fetching_location');
       locInput.style.color = 'var(--grey-400)';
       setTimeout(() => {
         locInput.value = 'MG Road, Bangalore';
@@ -550,8 +641,7 @@ document.addEventListener('DOMContentLoaded', () => {
     isEmergencyMode = false;
     if (emergencyModeBanner) emergencyModeBanner.style.display = 'none';
     if (reportScreenTitle) {
-      const dict = translations[currentLang];
-      reportScreenTitle.textContent = dict?.report_animal || 'Report Animal';
+      reportScreenTitle.textContent = t('report_animal');
     }
   }
 
@@ -681,7 +771,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnLocate) {
     btnLocate.addEventListener('click', () => {
       if (locationInput) {
-        locationInput.value = 'Fetching location...';
+        locationInput.value = t('fetching_location');
         locationInput.style.color = 'var(--grey-400)';
         setTimeout(() => {
           locationInput.value = 'MG Road, Bangalore';
@@ -762,17 +852,28 @@ document.addEventListener('DOMContentLoaded', () => {
   // Tracking Screen — filter chips (functional)
   // ==========================
   const trackingLabel = document.getElementById('tracking-section-label');
-  const chipLabels = { all: '', active: 'Active Rescues', transit: 'In Transit', rescued: 'Rescued' };
+  const chipSectionKeys = { all: '', active: 'track_section_active', transit: 'track_section_transit', rescued: 'track_section_rescued' };
 
   document.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', () => {
       document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
       chip.classList.add('active');
       const filter = chip.id.replace('chip-', '');
-      if (trackingLabel) trackingLabel.textContent = chipLabels[filter] || '';
+      if (trackingLabel) {
+        const key = chipSectionKeys[filter];
+        trackingLabel.textContent = key ? t(key) : '';
+      }
       document.querySelectorAll('.track-card').forEach(card => {
         const status = card.dataset.status;
         card.style.display = (filter === 'all' || status === filter) ? '' : 'none';
+      });
+      // Hide group labels when all cards in the group are hidden
+      ['mine', 'other'].forEach(owner => {
+        const label = document.getElementById(`group-label-${owner}`);
+        if (!label) return;
+        const cards = document.querySelectorAll(`.track-card[data-owner="${owner}"]`);
+        const anyVisible = Array.from(cards).some(c => c.style.display !== 'none');
+        label.style.display = anyVisible ? '' : 'none';
       });
     });
   });
